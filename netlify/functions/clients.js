@@ -24,8 +24,4 @@ exports.handler = async (event) => {
 
   try {
     if (method === 'GET') {
-      const { data, error } = await supabase
-        .from('clients').select('*')
-        .order('updated_at', { ascending: false });
-      if (error) throw error;
-      return { statusCode: 200, headers, body: JSON.stringify(data
+      const { data, error } = await supa
