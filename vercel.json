@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/api/clients", "destination": "/api/clients" },
+    { "source": "/api/notify", "destination": "/api/notify" },
+    { "source": "/(.*)", "destination": "/public/index.html" }
+  ],
+  "crons": [
+    {
+      "path": "/api/notify",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
