@@ -25,9 +25,9 @@ exports.handler = async (event) => {
   };
 
   try {
-    const now     = new Date();
-    const in1h    = new Date(now.getTime() + 60 * 60 * 1000);
-    const in24h   = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    const now    = new Date();
+    const in1h   = new Date(now.getTime() + 60 * 60 * 1000);
+    const in24h  = new Date(now.getTime() + 24 * 60 * 60 * 1000);
     const todayStr = now.toISOString().slice(0, 10);
 
     const { data: clients, error } = await supabase.from('clients').select('*');
@@ -36,28 +36,51 @@ exports.handler = async (event) => {
     const messages = [];
 
     for (const c of clients) {
+      // Встреча через час
       if (c.meeting) {
         const mt = new Date(c.meeting);
         if (mt >= now && mt <= in1h) {
-          messages.push(`🤝 <b>Встреча через час!</b>\n👤 ${c.name}\n📞 ${c.phone || '—'}\n🏠 ${c.object || '—'}\n🕐 ${mt.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`);
+          messages.push(
+            `🤝 <b>Встреча через час!</b>\n` +
+            `👤 ${c.name}\n📞 ${c.phone || '—'}\n🏠 ${c.object || '—'}\n` +
+            `🕐 ${mt.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`
+          );
         }
+        // Встреча завтра
         if (mt >= in1h && mt <= in24h) {
-          messages.push(`📅 <b>Встреча завтра</b>\n👤 ${c.name}\n📞 ${c.phone || '—'}\n🏠 ${c.object || '—'}\n🕐 ${mt.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}`);
+          messages.push(
+            `📅 <b>Встреча завтра</b>\n` +
+            `👤 ${c.name}\n📞 ${c.phone || '—'}\n🏠 ${c.object || '—'}\n` +
+            `🕐 ${mt.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}`
+          );
         }
       }
+
+      // Созвон для подтверждения через час
       if (c.confirm_call) {
         const ct = new Date(c.confirm_call);
         if (ct >= now && ct <= in1h) {
-          messages.push(`📞 <b>Созвон через час!</b>\n👤 ${c.name}\n📞 ${c.phone || '—'}\n🕐 ${ct.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`);
+          messages.push(
+            `📞 <b>Созвон через час!</b>\n` +
+            `👤 ${c.name}\n📞 ${c.phone || '—'}\n` +
+            `🕐 ${ct.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`
+          );
         }
       }
+
+      // Просроченные задачи
       const tasks = typeof c.tasks === 'string' ? JSON.parse(c.tasks || '[]') : (c.tasks || []);
       const overdue = tasks.filter(t => !t.done && t.dueDate && t.dueDate < todayStr);
       if (overdue.length > 0) {
-        messages.push(`⚠️ <b>Просроченные задачи</b>\n👤 ${c.name}\n` + overdue.map(t => `• ${t.type}${t.note ? ': ' + t.note : ''}`).join('\n'));
+        messages.push(
+          `⚠️ <b>Просроченные задачи</b>\n` +
+          `👤 ${c.name}\n` +
+          overdue.map(t => `• ${t.type}${t.note ? ': ' + t.note : ''}`).join('\n')
+        );
       }
     }
 
+    // Утренний дайджест в 9:00
     if (now.getHours() === 9) {
       const todayMeetings = clients.filter(c => c.meeting && c.meeting.startsWith(todayStr));
       if (todayMeetings.length > 0) {
@@ -68,6 +91,7 @@ exports.handler = async (event) => {
         messages.push(`🌅 <b>Встречи на сегодня:</b>\n${lines}`);
       }
 
+      // Клиенты без контакта
       const needContact = clients.filter(c => {
         const contacts = typeof c.contacts === 'string' ? JSON.parse(c.contacts || '[]') : (c.contacts || []);
         const lastDate  = contacts.at(-1)?.date || null;
@@ -79,17 +103,24 @@ exports.handler = async (event) => {
         return false;
       });
       if (needContact.length > 0) {
-        messages.push(`🔴 <b>Нужен контакт (${needContact.length} чел.):</b>\n` + needContact.slice(0, 7).map(c => `• ${c.name} [${c.tab}]`).join('\n'));
+        messages.push(
+          `🔴 <b>Нужен контакт (${needContact.length} чел.):</b>\n` +
+          needContact.slice(0, 7).map(c => `• ${c.name} [${c.tab}]`).join('\n') +
+          (needContact.length > 7 ? `\n...и ещё ${needContact.length - 7}` : '')
+        );
       }
     }
 
+    // Отправляем все сообщения
     for (const msg of messages) {
       await sendTelegram(msg);
       await new Promise(r => setTimeout(r, 150));
     }
 
     return { statusCode: 200, headers, body: JSON.stringify({ sent: messages.length }) };
+
   } catch (err) {
+    console.error(err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };

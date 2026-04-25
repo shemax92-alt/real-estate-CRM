@@ -1,7 +1,6 @@
 {
   "name": "real-estate-crm",
   "version": "1.0.0",
-  "description": "Real Estate CRM with Supabase + Telegram notifications",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0"
   },
