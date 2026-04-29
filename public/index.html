@@ -640,24 +640,33 @@ async function completeClient(id) {
   closeModal();
 }
 
-function showCompletedAddModal() {
-  const id=uid();
-  openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="form-title">🏆 Завершённая сделка</div>
-    <div class="form-grid">
-      <div class="field"><label>ФИО *</label><input id="f_name" placeholder="Имя клиента"></div>
-      <div class="field"><label>Телефон</label><input id="f_phone"></div>
-      <div class="field"><label>Дата рождения</label><input type="date" id="f_birth"></div>
-      <div class="field"><label>Дата сделки *</label><input type="date" id="f_deal" value="${todayISO()}"></div>
-      <div class="field full"><label>Страховка до</label><input type="date" id="f_insurance"></div>
-      <div class="field full"><label>Объект</label><input id="f_object" placeholder="Адрес объекта"></div>
-    </div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-      <button class="btn-save" onclick="saveCompletedDirect('${id}')">Сохранить</button>
-    </div>
-  </div>`);
+async function saveCompletedDirect(id) {
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){alert('Введите имя');return;}
+  const data={
+    id,
+    name,
+    phone:document.getElementById('f_phone').value.trim(),
+    type:'Покупатель',
+    source:'Другое',
+    object:document.getElementById('f_object').value.trim(),
+    budget:'',
+    notes:'',
+    tab:'Завершённые',
+    birthDate:document.getElementById('f_birth').value||'',
+    dealDate:document.getElementById('f_deal').value||'',
+    insuranceDate:document.getElementById('f_insurance').value||'',
+    created_at:todayISO(),
+    contacts:JSON.stringify([]),
+    tasks:JSON.stringify([])
+  };
+  try {
+    const saved=await apiPost(data);
+    clients.push({...saved,contacts:[],tasks:[]});
+    closeModal();
+  } catch(e) {
+    alert('Ошибка сохранения: '+e.message);
+  }
 }
 
 async function saveCompletedDirect(id) {
