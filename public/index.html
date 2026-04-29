@@ -568,9 +568,9 @@ async function deleteContact(cid,ctid){const c=clients.find(x=>x.id===cid);if(!c
 
 // ── DRAFT ─────────────────────────────────────────────────────────
 const DRAFT_KEY='re_crm_draft';
-function saveDraft(){try{const draft={name:document.getElementById('f_name')?.value||'',phone:document.getElementById('f_phone')?.value||'',type:document.getElementById('f_type')?.value||'',source:document.getElementById('f_source')?.value||'',object:document.getElementById('f_object')?.value||'',budget:document.getElementById('f_budget')?.value||'',notes:document.getElementById('f_notes')?.value||'',tab:document.getElementById('f_tab')?.value||'',birthDate:document.getElementById('f_birth')?.value||''};sessionStorage.setItem(DRAFT_KEY,JSON.stringify(draft));}catch(e){}}
-function clearDraft(){sessionStorage.removeItem(DRAFT_KEY);}
-function getDraft(){try{return JSON.parse(sessionStorage.getItem(DRAFT_KEY)||'null');}catch{return null;}}
+function saveDraft(){try{const draft={name:document.getElementById('f_name')?.value||'',phone:document.getElementById('f_phone')?.value||'',type:document.getElementById('f_type')?.value||'',source:document.getElementById('f_source')?.value||'',object:document.getElementById('f_object')?.value||'',budget:document.getElementById('f_budget')?.value||'',notes:document.getElementById('f_notes')?.value||'',tab:document.getElementById('f_tab')?.value||'',birthDate:document.getElementById('f_birth')?.value||''};localStorage.setItem(DRAFT_KEY,JSON.stringify(draft));}catch(e){}}
+function clearDraft(){localStorage.removeItem(DRAFT_KEY);}
+function getDraft(){try{return JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');}catch{return null;}}
 
 // ── MODALS ────────────────────────────────────────────────────────
 function openModal(html){document.getElementById('modals').innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()">${html}</div>`;}
