@@ -570,33 +570,69 @@ async function deleteContact(cid,ctid){const c=clients.find(x=>x.id===cid);if(!c
 function openModal(html){document.getElementById('modals').innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()">${html}</div>`;}
 function closeModal(){document.getElementById('modals').innerHTML='';render();}
 
+const DRAFT_KEY = 're_crm_draft';
+
+function saveDraft() {
+  const draft = {
+    name: document.getElementById('f_name')?.value||'',
+    phone: document.getElementById('f_phone')?.value||'',
+    type: document.getElementById('f_type')?.value||'',
+    source: document.getElementById('f_source')?.value||'',
+    object: document.getElementById('f_object')?.value||'',
+    budget: document.getElementById('f_budget')?.value||'',
+    notes: document.getElementById('f_notes')?.value||'',
+    tab: document.getElementById('f_tab')?.value||'',
+    birthDate: document.getElementById('f_birth')?.value||'',
+    dealDate: document.getElementById('f_deal')?.value||'',
+    insuranceDate: document.getElementById('f_insurance')?.value||'',
+  };
+  sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+}
+
+function clearDraft() {
+  sessionStorage.removeItem(DRAFT_KEY);
+}
+
+function getDraft() {
+  try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY)||'null'); } catch { return null; }
+}
+
 function showClientModal(id) {
-  const c=id?clients.find(x=>x.id===id):null;
-  const d=c||{id:uid(),name:'',phone:'',type:'Покупатель',source:'Звонок по объекту',object:'',incomingObject:'',budget:'',notes:'',tab:activeTab==='Календарь'||activeTab==='Завершённые'?'Активные':activeTab,birthDate:'',dealDate:'',insuranceDate:''};
-  const isCompleted=d.tab==='Завершённые';
+  const c = id ? clients.find(x=>x.id===id) : null;
+  const draft = !id ? getDraft() : null;
+  const d = c || draft || {id:uid(),name:'',phone:'',type:'Покупатель',source:'Звонок по объекту',object:'',incomingObject:'',budget:'',notes:'',tab:activeTab==='Календарь'||activeTab==='Завершённые'?'Активные':activeTab,birthDate:'',dealDate:'',insuranceDate:''};
+  const isCompleted = d.tab==='Завершённые';
+  const hasDraft = !id && draft && draft.name;
+
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="form-title">${c?'Редактировать':'Новый клиент'}</div>
+    <button class="modal-close" onclick="clearDraft();closeModal()">✕</button>
+    <div class="form-title">${c?'Редактировать':'Новый клиент'}${hasDraft?` <span style="font-size:12px;color:#b87333;font-family:sans-serif">· черновик восстановлен</span>`:''}</div>
     <div class="form-grid">
-      <div class="field"><label>Имя *</label><input id="f_name" value="${esc(d.name)}"></div>
-      <div class="field"><label>Телефон</label><input id="f_phone" value="${esc(d.phone||'')}"></div>
-      <div class="field"><label>Тип</label><select id="f_type">${CLIENT_TYPES.map(t=>`<option${d.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
-      <div class="field"><label>Источник</label><select id="f_source">${SOURCES.map(t=>`<option${d.source===t?' selected':''}>${t}</option>`).join('')}</select></div>
-      <div class="field full"><label>Объект</label><input id="f_object" value="${esc(d.object||'')}"></div>
-      <div class="field"><label>Бюджет</label><input id="f_budget" value="${esc(d.budget||'')}"></div>
-      <div class="field"><label>Вкладка</label><select id="f_tab">${['Входящие',...CLIENT_TABS.slice(1),'Завершённые'].map(t=>`<option${d.tab===t?' selected':''}>${t}</option>`).join('')}</select></div>
-      <div class="field"><label>Дата рождения</label><input type="date" id="f_birth" value="${d.birthDate||''}"></div>
+      <div class="field"><label>Имя *</label><input id="f_name" value="${esc(d.name)}" oninput="saveDraft()"></div>
+      <div class="field"><label>Телефон</label><input id="f_phone" value="${esc(d.phone||'')}" oninput="saveDraft()"></div>
+      <div class="field"><label>Тип</label><select id="f_type" onchange="saveDraft()">${CLIENT_TYPES.map(t=>`<option${d.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Источник</label><select id="f_source" onchange="saveDraft()">${SOURCES.map(t=>`<option${d.source===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field full"><label>Объект</label><input id="f_object" value="${esc(d.object||'')}" oninput="saveDraft()"></div>
+      <div class="field"><label>Бюджет</label><input id="f_budget" value="${esc(d.budget||'')}" oninput="saveDraft()"></div>
+      <div class="field"><label>Вкладка</label><select id="f_tab" onchange="saveDraft()">${['Входящие',...CLIENT_TABS.slice(1),'Завершённые'].map(t=>`<option${d.tab===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Дата рождения</label><input type="date" id="f_birth" value="${d.birthDate||''}" onchange="saveDraft()"></div>
       ${isCompleted?`
-      <div class="field"><label>Дата сделки</label><input type="date" id="f_deal" value="${d.dealDate||''}"></div>
-      <div class="field"><label>Страховка до</label><input type="date" id="f_insurance" value="${d.insuranceDate||''}"></div>
+      <div class="field"><label>Дата сделки</label><input type="date" id="f_deal" value="${d.dealDate||''}" onchange="saveDraft()"></div>
+      <div class="field"><label>Страховка до</label><input type="date" id="f_insurance" value="${d.insuranceDate||''}" onchange="saveDraft()"></div>
       `:''}
-      <div class="field full"><label>Заметки</label><textarea id="f_notes" rows="3">${esc(d.notes||'')}</textarea></div>
+      <div class="field full"><label>Заметки</label><textarea id="f_notes" rows="3" oninput="saveDraft()">${esc(d.notes||'')}</textarea></div>
     </div>
     <div class="form-actions">
+      ${hasDraft?`<button class="btn-cancel" onclick="clearDraft();showClientModal(null)" style="color:#e74c3c">Очистить</button>`:''}
       <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-      <button class="btn-save" onclick="saveClient('${d.id}',${!c})">${c?'Сохранить':'Далее →'}</button>
+      <button class="btn-save" onclick="saveClientAndClearDraft('${d.id}',${!c})">${c?'Сохранить':'Далее →'}</button>
     </div>
   </div>`);
+}
+
+async function saveClientAndClearDraft(id, isNew) {
+  await saveClient(id, isNew);
+  clearDraft();
 }
 
 async function saveClient(id, isNew) {
