@@ -3,42 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Недвижимость</title>
+<title>Golden Clients of Maxim Shchedrinov</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Georgia', serif; background: #f7f5f0; color: #2c2c2c; min-height: 100vh; }
 
-  /* HEADER */
   header { background: #2c2c2c; color: #f0ebe0; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
-  .logo { font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #d4b896; }
-  .logo-sub { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #8a8070; font-family: sans-serif; margin-left: 10px; }
+  .logo { font-size: 16px; font-weight: 700; letter-spacing: 1px; color: #d4b896; }
+  .logo-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #8a8070; font-family: sans-serif; }
   .header-right { display: flex; gap: 10px; align-items: center; }
-  .sync-status { font-size: 12px; font-family: sans-serif; padding: 3px 10px; border-radius: 20px; }
+  .sync-badge { border-radius: 20px; padding: 3px 10px; font-size: 12px; font-family: sans-serif; }
   .sync-ok { background: #27ae6022; color: #27ae60; border: 1px solid #27ae6055; }
-  .sync-err { background: #e74c3c22; color: #e74c3c; border: 1px solid #e74c3c55; }
-  .sync-load { background: #b8733322; color: #b87333; border: 1px solid #b8733355; }
+  .sync-wait { background: #b8733322; color: #b87333; border: 1px solid #b8733355; }
   .badge-overdue { background: #e74c3c22; color: #e74c3c; border: 1px solid #e74c3c55; border-radius: 20px; padding: 3px 10px; font-size: 12px; font-family: sans-serif; }
   .badge-total { background: #d4b89622; color: #b87333; border-radius: 20px; padding: 3px 10px; font-size: 12px; font-family: sans-serif; }
 
-  /* TABS */
+  .reminder-bar { margin: 12px 20px 0; background: #fff; border-radius: 8px; border-left: 4px solid #4a6fa5; padding: 10px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; box-shadow: 0 1px 4px #0001; }
+  .reminder-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #4a6fa5; font-family: sans-serif; }
+  .reminder-item { font-size: 13px; font-family: sans-serif; color: #444; cursor: pointer; padding: 2px 8px; background: #f5f0ea; border-radius: 4px; }
+
   .tab-bar { background: #fff; border-bottom: 1px solid #e0d8cc; display: flex; padding: 0 16px; overflow-x: auto; position: sticky; top: 53px; z-index: 40; }
   .tab-btn { background: none; border: none; border-bottom: 3px solid transparent; padding: 12px 14px; font-size: 14px; cursor: pointer; color: #888; font-family: sans-serif; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all .2s; }
   .tab-btn.active { font-weight: 600; }
   .tab-count { border-radius: 10px; padding: 1px 7px; font-size: 11px; color: #fff; font-family: sans-serif; }
 
-  /* TOOLBAR */
   .toolbar { display: flex; gap: 10px; padding: 14px 20px 0; align-items: center; flex-wrap: wrap; }
   .search-input { flex: 1; min-width: 140px; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 14px; font-family: sans-serif; background: #fff; outline: none; }
+  .object-select { flex: 2; min-width: 180px; border: 1px solid #c9b8f0; border-radius: 6px; padding: 8px 12px; font-size: 13px; font-family: sans-serif; background: #fff; outline: none; color: #7c5cbf; }
   .btn-kts { background: #fff; border: 1px solid #b87333; color: #b87333; border-radius: 6px; padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: sans-serif; white-space: nowrap; }
   .btn-add { background: #2c2c2c; color: #f0ebe0; border: none; border-radius: 6px; padding: 8px 18px; font-size: 14px; cursor: pointer; font-family: sans-serif; white-space: nowrap; }
   .hint { padding: 6px 20px 0; font-size: 12px; color: #999; font-family: sans-serif; font-style: italic; }
+  .filter-badge { margin: 8px 20px 0; background: #f0eeff; border: 1px solid #c9b8f0; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-family: sans-serif; color: #7c5cbf; display: flex; align-items: center; gap: 12px; }
+  .filter-clear { background: none; border: 1px solid #c9b8f0; border-radius: 4px; padding: 2px 8px; font-size: 12px; cursor: pointer; color: #7c5cbf; font-family: sans-serif; margin-left: auto; }
 
-  /* GRID */
   .grid { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
   .empty-state { text-align: center; color: #aaa; padding: 40px; font-family: sans-serif; }
 
-  /* CARD */
   .card { background: #fff; border-radius: 8px; border-left: 4px solid #ccc; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .incoming-banner { background: #f0eeff; border-bottom: 1px solid #e4d8ff; padding: 7px 16px; font-size: 12px; font-family: sans-serif; color: #5c3cbf; }
   .card-header { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
   .card-header-left { display: flex; align-items: center; gap: 10px; }
   .card-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -49,22 +51,20 @@
   .meta-text { font-size: 12px; color: #888; font-family: sans-serif; }
   .days-badge { font-size: 12px; font-family: sans-serif; }
   .tasks-badge { background: #fff3e0; color: #b87333; border-radius: 10px; padding: 1px 8px; font-size: 11px; font-family: sans-serif; }
-  .chevron { color: #aaa; font-size: 11px; font-family: sans-serif; }
+  .chevron { color: #aaa; font-size: 11px; }
 
-  /* CARD BODY */
   .card-body { border-top: 1px solid #f0ebe0; padding: 12px 16px; display: flex; flex-direction: column; gap: 14px; }
   .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .info-item { display: flex; flex-direction: column; gap: 2px; }
-  .info-item.full { grid-column: 1/-1; }
   .info-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; }
-  .info-val { font-size: 13px; }
   .move-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .btn-move { background: #fff; border: 1px solid; border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; font-family: sans-serif; }
+  .btn-promote { background: #f0faf2; border: 1px solid #b2dfb8; color: #27ae60; border-radius: 4px; padding: 4px 12px; font-size: 12px; cursor: pointer; font-family: sans-serif; font-weight: 600; }
   .btn-meeting { background: #eef2fb; border: 1px solid #c0ccee; color: #4a6fa5; border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; font-family: sans-serif; }
+  .btn-complete { background: #fff8e1; border: 1px solid #ffe082; color: #f9a825; border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; font-family: sans-serif; font-weight: 600; }
   .btn-edit { background: #f5f0ea; border: 1px solid #ddd; border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; font-family: sans-serif; margin-left: auto; }
   .btn-del { background: #fff0f0; border: 1px solid #fcc; color: #e74c3c; border-radius: 4px; padding: 3px 8px; font-size: 12px; cursor: pointer; font-family: sans-serif; }
 
-  /* SECTIONS */
   .section { display: flex; flex-direction: column; gap: 6px; }
   .section-header { display: flex; justify-content: space-between; align-items: center; }
   .section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; font-family: sans-serif; }
@@ -74,34 +74,22 @@
   .task-type { font-size: 12px; font-weight: 600; font-family: sans-serif; min-width: 80px; }
   .task-note { font-size: 13px; flex: 1; color: #555; }
   .task-date { font-size: 11px; font-family: sans-serif; }
-  .btn-tiny-del { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; padding: 0 2px; }
+  .btn-tiny { background: none; border: none; color: #bbb; cursor: pointer; font-size: 12px; padding: 0 2px; }
   .done-details summary { font-size: 12px; color: #aaa; font-family: sans-serif; cursor: pointer; list-style: none; }
   .done-details summary::-webkit-details-marker { display: none; }
   .contact-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid #f5f0ea; }
   .contact-date { font-size: 12px; color: #b87333; font-family: sans-serif; min-width: 80px; }
   .contact-note { font-size: 13px; flex: 1; color: #555; }
 
-  /* MODAL */
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-  .modal { background: #fff; border-radius: 10px; padding: 24px; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 8px 40px rgba(0,0,0,.15); }
-  .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 18px; cursor: pointer; color: #aaa; }
-  .form-title { font-size: 18px; font-weight: 700; border-bottom: 2px solid #f0ebe0; padding-bottom: 10px; margin-bottom: 16px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { display: flex; flex-direction: column; gap: 4px; }
-  .field.full { grid-column: 1/-1; }
-  .field label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; }
-  .field input, .field select, .field textarea { border: 1px solid #ddd; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-family: sans-serif; outline: none; background: #fafafa; width: 100%; resize: vertical; }
-  .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
-  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
-  .btn-cancel { background: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 8px 20px; font-size: 14px; cursor: pointer; font-family: sans-serif; }
-  .btn-save { background: #2c2c2c; color: #f0ebe0; border: none; border-radius: 6px; padding: 8px 24px; font-size: 14px; cursor: pointer; font-family: sans-serif; }
-  .btn-save:disabled { opacity: 0.4; cursor: not-allowed; }
-  .meeting-choices { display: flex; gap: 12px; }
-  .btn-choice { flex: 1; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; font-family: sans-serif; color: #666; transition: all .15s; }
-  .btn-choice.active-blue { border-color: #4a6fa5; color: #4a6fa5; background: #eef2fb; font-weight: 600; }
-  .btn-choice.active-green { border-color: #6b7f6e; color: #6b7f6e; background: #f0f4f1; font-weight: 600; }
-  .parsed-grid { background: #f9f7f4; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-  .parsed-row { display: flex; flex-direction: column; gap: 2px; }
+  /* COMPLETED TABLE */
+  .completed-wrap { padding: 20px; }
+  .completed-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px #0001; font-family: sans-serif; font-size: 13px; }
+  .completed-table th { background: #2c2c2c; color: #d4b896; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .completed-table td { padding: 10px 14px; border-bottom: 1px solid #f0ebe0; vertical-align: middle; }
+  .completed-table tr:last-child td { border-bottom: none; }
+  .completed-table tr:hover td { background: #faf8f5; }
+  .completed-table .actions { display: flex; gap: 6px; }
+  .anniversary-badge { background: #fff8e1; color: #f9a825; border-radius: 4px; padding: 2px 6px; font-size: 11px; }
 
   /* CALENDAR */
   .cal-wrap { padding: 20px; max-width: 900px; }
@@ -117,315 +105,328 @@
   .cal-day-num.today { color: #4a6fa5; font-weight: 700; }
   .chip-meeting { background: #eef2fb; color: #4a6fa5; border-radius: 3px; padding: 2px 4px; font-size: 10px; font-family: sans-serif; cursor: pointer; margin-bottom: 2px; line-height: 1.4; }
   .chip-confirm { background: #fff3e0; color: #b87333; border-radius: 3px; padding: 2px 4px; font-size: 10px; font-family: sans-serif; cursor: pointer; margin-bottom: 2px; line-height: 1.4; }
-  .upcoming-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; font-family: sans-serif; margin: 28px 0 10px; }
-  .upcoming-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-  .upcoming-info { flex: 1; }
-  .upcoming-name { font-weight: 600; font-size: 14px; }
-  .upcoming-obj { font-size: 12px; color: #888; font-family: sans-serif; }
-  .upcoming-times { text-align: right; font-family: sans-serif; }
-  .upcoming-meeting { font-size: 13px; color: #4a6fa5; }
-  .upcoming-confirm { font-size: 12px; color: #b87333; margin-top: 2px; }
+  .chip-anniversary { background: #fff8e1; color: #f9a825; border-radius: 3px; padding: 2px 4px; font-size: 10px; font-family: sans-serif; cursor: pointer; margin-bottom: 2px; line-height: 1.4; }
+  .upcoming-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; cursor: pointer; box-shadow: 0 1px 3px #0001; }
 
-  /* LOADING */
+  /* MODAL */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+  .modal { background: #fff; border-radius: 10px; padding: 24px; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 8px 40px rgba(0,0,0,.15); }
+  .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 18px; cursor: pointer; color: #aaa; }
+  .form-title { font-size: 18px; font-weight: 700; border-bottom: 2px solid #f0ebe0; padding-bottom: 10px; margin-bottom: 16px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field.full { grid-column: 1/-1; }
+  .field label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; }
+  .field input, .field select, .field textarea { border: 1px solid #ddd; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-family: sans-serif; outline: none; background: #fafafa; width: 100%; resize: vertical; }
+  .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+  .btn-cancel { background: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; padding: 8px 20px; font-size: 14px; cursor: pointer; font-family: sans-serif; }
+  .btn-save { background: #2c2c2c; color: #f0ebe0; border: none; border-radius: 6px; padding: 8px 24px; font-size: 14px; cursor: pointer; font-family: sans-serif; }
+  .btn-save:disabled { opacity: .4; cursor: not-allowed; }
+  .meeting-choices { display: flex; gap: 12px; }
+  .btn-choice { flex: 1; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; font-family: sans-serif; color: #666; }
+  .btn-choice.active-blue { border-color: #4a6fa5; color: #4a6fa5; background: #eef2fb; font-weight: 600; }
+  .btn-choice.active-green { border-color: #6b7f6e; color: #6b7f6e; background: #f0f4f1; font-weight: 600; }
+  .parsed-grid { background: #f9f7f4; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+  /* FLOATING TASKS PANEL */
+  .float-btn { position: fixed; bottom: 24px; right: 24px; width: 54px; height: 54px; border-radius: 50%; background: #2c2c2c; color: #d4b896; border: none; font-size: 22px; cursor: pointer; box-shadow: 0 4px 16px #0003; z-index: 200; display: flex; align-items: center; justify-content: center; }
+  .float-badge { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 11px; font-family: sans-serif; }
+  .float-panel { position: fixed; bottom: 90px; right: 24px; width: 340px; max-height: 480px; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px #0003; z-index: 200; display: flex; flex-direction: column; overflow: hidden; }
+  .float-panel-header { background: #2c2c2c; color: #d4b896; padding: 12px 16px; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+  .float-panel-body { overflow-y: auto; flex: 1; }
+  .float-task-group { border-bottom: 1px solid #f0ebe0; }
+  .float-task-group-name { padding: 8px 16px 4px; font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; font-weight: 700; }
+  .float-task-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-bottom: 1px solid #f9f7f4; }
+  .float-task-item:last-child { border-bottom: none; }
+  .float-task-type { font-size: 12px; font-weight: 600; color: #b87333; font-family: sans-serif; min-width: 70px; }
+  .float-task-note { font-size: 13px; flex: 1; color: #555; }
+  .float-task-date { font-size: 11px; color: #999; font-family: sans-serif; }
+  .float-empty { padding: 24px; text-align: center; color: #aaa; font-family: sans-serif; font-size: 13px; }
+
   .loading { display: flex; align-items: center; justify-content: center; padding: 60px; flex-direction: column; gap: 12px; color: #aaa; font-family: sans-serif; }
   .spinner { width: 32px; height: 32px; border: 3px solid #e0d8cc; border-top-color: #b87333; border-radius: 50%; animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* REMINDERS BANNER */
-  .reminders-banner { margin: 12px 20px 0; background: #fff; border-radius: 8px; border-left: 4px solid #4a6fa5; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-  .reminders-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #4a6fa5; font-family: sans-serif; margin-bottom: 8px; }
-  .reminder-item { font-size: 13px; font-family: sans-serif; color: #444; padding: 3px 0; border-bottom: 1px solid #f0ebe0; }
-  .reminder-item:last-child { border-bottom: none; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div style="display:flex;align-items:baseline;gap:10px">
-    <span class="logo">⬡ CRM</span>
-    <span class="logo-sub">Недвижимость</span>
+  <div>
+    <div class="logo">⬡ Golden Clients of Maxim Shchedrinov</div>
   </div>
   <div class="header-right">
-    <span class="sync-status sync-load" id="syncStatus">⟳ Загрузка...</span>
-    <span id="overduebadge" style="display:none" class="badge-overdue"></span>
-    <span id="totalbadge" class="badge-total">0 клиентов</span>
+    <span class="sync-badge sync-wait" id="syncStatus">⟳ Загрузка...</span>
+    <span id="overdueBadge" style="display:none" class="badge-overdue"></span>
+    <span id="totalBadge" class="badge-total">0 клиентов</span>
   </div>
 </header>
 
-<!-- TABS -->
+<div id="reminderBar" style="display:none"></div>
 <div class="tab-bar" id="tabBar"></div>
-
-<!-- CONTENT -->
 <div id="app"></div>
 
-<!-- MODALS -->
+<!-- FLOATING TASKS BUTTON -->
+<button class="float-btn" onclick="toggleFloatPanel()" id="floatBtn">
+  ✓<span class="float-badge" id="floatBadge" style="display:none">0</span>
+</button>
+<div class="float-panel" id="floatPanel" style="display:none">
+  <div class="float-panel-header">
+    <span>📋 Все задачи</span>
+    <button onclick="toggleFloatPanel()" style="background:none;border:none;color:#d4b896;cursor:pointer;font-size:16px">✕</button>
+  </div>
+  <div class="float-panel-body" id="floatPanelBody"></div>
+</div>
+
 <div id="modals"></div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 const API_BASE = '/api';
+const MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const DAYS = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const ALL_TABS = ['Входящие','Отложенные','Активные','Сделки','Завершённые','Календарь'];
+const CLIENT_TABS = ['Входящие','Отложенные','Активные','Сделки'];
+const CLIENT_TYPES = ['Покупатель','Собственник','Рекомендация'];
+const SOURCES = ['Звонок по объекту','Знакомый','Реклама','КЦ','Другое'];
+const TASK_TYPES = {
+  'Входящие':   ['Перезвонить','Квалифицировать','Показ','Другое'],
+  'Отложенные': ['Прогрев','Звонок','Сообщение','Показ','Другое'],
+  'Активные':   ['Еженедельный контакт','Отчёт','Выявление потребности','Показ','Другое'],
+  'Сделки':     ['Задаток','Подбор объектов','Документы','Встреча','Показ','Звонок','Другое'],
+};
 
-// ── STATE ────────────────────────────────────────────────────────
 let clients = [];
 let activeTab = 'Активные';
 let searchQ = '';
+let objectFilter = '';
 let openCardId = null;
-
-const CLIENT_TABS = ['Отложенные', 'Активные', 'Сделки'];
-const ALL_TABS = ['Отложенные', 'Активные', 'Сделки', 'Календарь'];
-const CLIENT_TYPES = ['Покупатель', 'Собственник', 'Рекомендация'];
-const SOURCES = ['Звонок по объекту', 'Знакомый', 'Реклама', 'КЦ', 'Другое'];
-const TASK_TYPES = {
-  'Отложенные': ['Прогрев', 'Звонок', 'Сообщение', 'Другое'],
-  'Активные': ['Еженедельный контакт', 'Отчёт', 'Выявление потребности', 'Показ', 'Другое'],
-  'Сделки': ['Задаток', 'Подбор объектов', 'Документы', 'Встреча', 'Звонок', 'Другое'],
-};
-const MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-const DAYS = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-
 let calY = new Date().getFullYear();
 let calM = new Date().getMonth();
-
-// ── HELPERS ──────────────────────────────────────────────────────
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
-const todayISO = () => new Date().toISOString().slice(0,10);
-const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-const fmtDT = iso => {
-  if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'}) + ' ' + d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
-};
-const daysSince = iso => iso ? Math.floor((Date.now()-new Date(iso).getTime())/86400000) : null;
-const tabColor = t => ({'Отложенные':'#6b7f6e','Активные':'#b87333','Сделки':'#4a6fa5','Календарь':'#7c5cbf'}[t]||'#888');
-const urgencyDot = c => {
-  const d = daysSince((c.contacts||[]).at(-1)?.date);
-  if (d===null) return '#e74c3c';
-  if (c.tab==='Отложенные'&&d>30) return '#e74c3c';
-  if (c.tab==='Активные'&&d>7) return '#e67e22';
-  if (c.tab==='Сделки'&&d>3) return '#e74c3c';
-  return '#27ae60';
-};
-const el = id => document.getElementById(id);
-const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+let floatOpen = false;
 
 // ── API ──────────────────────────────────────────────────────────
 function setSyncStatus(state, msg) {
-  const el2 = el('syncStatus');
-  el2.className = 'sync-status ' + (state==='ok'?'sync-ok':state==='err'?'sync-err':'sync-load');
-  el2.textContent = msg;
+  const el = document.getElementById('syncStatus');
+  el.className = 'sync-badge ' + (state==='ok'?'sync-ok':'sync-wait');
+  el.textContent = msg;
 }
 
-async function apiGet() {
-  const r = await fetch(`${API_BASE}/clients`);
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function apiPost(data) {
-  const r = await fetch(`${API_BASE}/clients`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function apiPut(id, data) {
-  const r = await fetch(`${API_BASE}/clients?id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function apiDelete(id) {
-  const r = await fetch(`${API_BASE}/clients?id=${id}`, { method:'DELETE' });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
+async function apiGet() { const r = await fetch(`${API_BASE}/clients`); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function apiPost(d) { const r = await fetch(`${API_BASE}/clients`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function apiPut(id,d) { const r = await fetch(`${API_BASE}/clients?id=${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function apiDel(id) { const r = await fetch(`${API_BASE}/clients?id=${id}`,{method:'DELETE'}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
 
 async function loadClients() {
   setSyncStatus('load','⟳ Загрузка...');
   try {
     const data = await apiGet();
-    clients = data.map(c => ({
-      ...c,
-      contacts: typeof c.contacts==='string' ? JSON.parse(c.contacts||'[]') : (c.contacts||[]),
-      tasks: typeof c.tasks==='string' ? JSON.parse(c.tasks||'[]') : (c.tasks||[]),
+    clients = data.map(c => ({...c,
+      contacts: typeof c.contacts==='string'?JSON.parse(c.contacts||'[]'):(c.contacts||[]),
+      tasks: typeof c.tasks==='string'?JSON.parse(c.tasks||'[]'):(c.tasks||[]),
     }));
     setSyncStatus('ok','✓ Синхронизировано');
     render();
-  } catch(e) {
-    setSyncStatus('err','✗ Ошибка загрузки');
-    console.error(e);
-  }
+  } catch(e) { setSyncStatus('err','✗ Ошибка'); }
 }
 
-// ── KTS PARSER ───────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2);
+const todayISO = () => new Date().toISOString().slice(0,10);
+const fmtDate = iso => iso?new Date(iso).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+const fmtDT = iso => { if(!iso)return'—'; const d=new Date(iso); return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}); };
+const daysSince = iso => iso?Math.floor((Date.now()-new Date(iso).getTime())/86400000):null;
+const tabColor = t => ({'Входящие':'#7c5cbf','Отложенные':'#6b7f6e','Активные':'#b87333','Сделки':'#4a6fa5','Завершённые':'#d4af37','Календарь':'#2c8c6e'}[t]||'#888');
+const urgencyDot = c => {
+  const d = daysSince((c.contacts||[]).at(-1)?.date);
+  if(c.tab==='Входящие') return d===null||d>2?'#e74c3c':'#27ae60';
+  if(d===null) return '#e74c3c';
+  if(c.tab==='Отложенные'&&d>30) return '#e74c3c';
+  if(c.tab==='Активные'&&d>7) return '#e67e22';
+  if(c.tab==='Сделки'&&d>3) return '#e74c3c';
+  return '#27ae60';
+};
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
 function parseKts(text) {
-  const get = label => { const m = text.match(new RegExp(label+'[:\\s]+(.+)','i')); return m?m[1].trim():''; };
-  const name = get('ФИО'), phone = get('Телефон'), budget = get('Бюджет');
-  const lokacija = get('Локация');
-  const addrM = text.match(/Адрес:\s*(.+)/i);
-  const object = addrM ? addrM[1].trim() : lokacija;
-  const notes = [get('Тип сделки')&&`Сделка: ${get('Тип сделки')}`, get('Тип объекта')&&`Объект: ${get('Тип объекта')}`, get('Комнат')&&`Комнат: ${get('Комнат')}`, get('ID заявки')&&`ID: ${get('ID заявки')}`].filter(Boolean).join(' · ');
-  return { name, phone, budget, object, notes, source:'КЦ', type:'Покупатель', tab:'Активные' };
+  const get = l => { const m=text.match(new RegExp(l+'[:\\s]+(.+)','i')); return m?m[1].trim():''; };
+  const name=get('ФИО'),phone=get('Телефон'),budget=get('Бюджет'),lokacija=get('Локация');
+  const addrM=text.match(/Адрес:\s*(.+)/i);
+  const object=addrM?addrM[1].trim():lokacija;
+  const notes=[get('Тип сделки')&&`Сделка: ${get('Тип сделки')}`,get('Тип объекта')&&`Объект: ${get('Тип объекта')}`,get('Комнат')&&`Комнат: ${get('Комнат')}`,get('ID заявки')&&`ID: ${get('ID заявки')}`].filter(Boolean).join(' · ');
+  return {name,phone,budget,object,incomingObject:lokacija,notes,source:'КЦ',type:'Покупатель',tab:'Входящие'};
 }
 
 // ── RENDER ───────────────────────────────────────────────────────
 function render() {
   renderTabs();
   renderReminders();
-  if (activeTab === 'Календарь') renderCalendar();
+  renderFloatPanel();
+  if(activeTab==='Календарь') renderCalendar();
+  else if(activeTab==='Завершённые') renderCompleted();
   else renderClientList();
   updateBadges();
 }
 
 function updateBadges() {
-  el('totalbadge').textContent = clients.length + ' клиентов';
-  const overdue = clients.filter(c => {
-    const d = daysSince((c.contacts||[]).at(-1)?.date);
-    if (c.tab==='Отложенные') return d===null||d>30;
-    if (c.tab==='Активные') return d===null||d>7;
-    if (c.tab==='Сделки') return d===null||d>3;
+  document.getElementById('totalBadge').textContent = clients.filter(c=>c.tab!=='Завершённые').length+' клиентов';
+  const overdue = clients.filter(c=>{
+    const d=daysSince((c.contacts||[]).at(-1)?.date);
+    if(c.tab==='Входящие') return d===null||d>2;
+    if(c.tab==='Отложенные') return d===null||d>30;
+    if(c.tab==='Активные') return d===null||d>7;
+    if(c.tab==='Сделки') return d===null||d>3;
     return false;
   }).length;
-  const ob = el('overduebage') || el('overduebage');
-  const ob2 = document.getElementById('overduebage') || document.getElementById('overduebage');
-  const ovEl = document.getElementById('overduebage') || (() => { const e = document.createElement('span'); e.id='overduebage'; e.className='badge-overdue'; document.querySelector('.header-right').prepend(e); return e; })();
-  if (overdue > 0) { ovEl.style.display=''; ovEl.textContent=`⚠ ${overdue} просрочено`; }
-  else ovEl.style.display='none';
+  const ob = document.getElementById('overdueBadge');
+  if(overdue>0){ob.style.display='';ob.textContent=`⚠ ${overdue} просрочено`;}else ob.style.display='none';
 }
 
 function renderTabs() {
-  const counts = Object.fromEntries(CLIENT_TABS.map(t=>[t,clients.filter(c=>c.tab===t).length]));
-  const meetCount = clients.filter(c=>c.meeting).length;
-  el('tabBar').innerHTML = ALL_TABS.map(tab => {
-    const col = tabColor(tab);
-    const count = tab==='Календарь' ? meetCount : (counts[tab]||0);
-    const countBadge = count > 0 ? `<span class="tab-count" style="background:${col}">${count}</span>` : '';
-    const label = tab==='Календарь' ? '📅 '+tab : tab;
-    return `<button class="tab-btn${activeTab===tab?' active':''}" style="${activeTab===tab?`border-bottom-color:${col};color:${col}`:'color:#888'}" onclick="setTab('${tab}')">${label}${countBadge}</button>`;
+  const counts = {};
+  ALL_TABS.forEach(t => counts[t]=clients.filter(c=>c.tab===t).length);
+  counts['Календарь'] = clients.filter(c=>c.meeting).length;
+  document.getElementById('tabBar').innerHTML = ALL_TABS.map(tab=>{
+    const col=tabColor(tab);
+    const cnt=counts[tab]||0;
+    const label=tab==='Календарь'?'📅 '+tab:tab==='Входящие'?'📥 '+tab:tab==='Завершённые'?'🏆 '+tab:tab;
+    return `<button class="tab-btn${activeTab===tab?' active':''}" style="${activeTab===tab?`border-bottom-color:${col};color:${col}`:''}" onclick="setTab('${tab}')">${label}${cnt>0?`<span class="tab-count" style="background:${col}">${cnt}</span>`:''}</button>`;
   }).join('');
 }
 
 function renderReminders() {
-  const app = el('app');
-  const today = todayISO();
-  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
-  const tomorrowISO = tomorrow.toISOString().slice(0,10);
-
-  const items = [];
-  clients.forEach(c => {
-    if (c.meeting) {
-      const d = c.meeting.slice(0,10);
-      if (d===today) items.push(`🤝 Встреча сегодня — <b>${esc(c.name)}</b> в ${fmtDT(c.meeting).split(' ')[1]}`);
-      else if (d===tomorrowISO) items.push(`📅 Встреча завтра — <b>${esc(c.name)}</b> в ${fmtDT(c.meeting).split(' ')[1]}`);
-    }
-    if (c.confirm_call) {
-      const d = c.confirm_call.slice(0,10);
-      if (d===today) items.push(`📞 Созвон сегодня — <b>${esc(c.name)}</b> в ${fmtDT(c.confirm_call).split(' ')[1]}`);
-    }
-    (c.tasks||[]).filter(t=>!t.done&&t.dueDate&&t.dueDate<today).forEach(t => {
-      items.push(`⚠️ Просроченная задача — <b>${esc(c.name)}</b>: ${esc(t.type)}`);
-    });
+  const today=todayISO();
+  const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+  const tomorrowStr=tomorrow.toISOString().slice(0,10);
+  const items=[];
+  clients.forEach(c=>{
+    if(c.meeting){const d=c.meeting.slice(0,10);if(d===today)items.push(`🤝 Встреча — ${c.name} в ${fmtDT(c.meeting).split(' ')[1]}`);else if(d===tomorrowStr)items.push(`📅 Встреча завтра — ${c.name}`);}
+    if(c.confirmCall&&c.confirmCall.slice(0,10)===today)items.push(`📞 Созвон — ${c.name}`);
+    (c.tasks||[]).filter(t=>!t.done&&t.dueDate&&t.dueDate<today).forEach(t=>items.push(`⚠️ Просрочено — ${c.name}: ${t.type}`));
   });
+  // Anniversary reminders
+  clients.filter(c=>c.tab==='Завершённые'&&c.dealDate).forEach(c=>{
+    const d=new Date(c.dealDate); const now=new Date();
+    if(d.getMonth()===now.getMonth()&&d.getDate()===now.getDate()&&d.getFullYear()<now.getFullYear())
+      items.push(`🏆 Годовщина сделки — ${c.name}! Поздравить!`);
+  });
+  const bar=document.getElementById('reminderBar');
+  if(items.length>0&&activeTab!=='Календарь'){
+    bar.style.display='flex';
+    bar.innerHTML=`<span class="reminder-title">📌 Сегодня:</span>`+items.slice(0,4).map(i=>`<span class="reminder-item">${i}</span>`).join('');
+  } else bar.style.display='none';
+}
 
-  // Remove old banner if exists
-  const old = document.getElementById('remindersBanner');
-  if (old) old.remove();
+function renderFloatPanel() {
+  const pending = [];
+  clients.filter(c=>c.tab!=='Завершённые').forEach(c=>{
+    (c.tasks||[]).filter(t=>!t.done).forEach(t=>pending.push({...t,clientName:c.name,clientId:c.id}));
+  });
+  const badge=document.getElementById('floatBadge');
+  if(pending.length>0){badge.style.display='';badge.textContent=pending.length;}else badge.style.display='none';
 
-  if (items.length > 0 && activeTab !== 'Календарь') {
-    const banner = document.createElement('div');
-    banner.id = 'remindersBanner';
-    banner.className = 'reminders-banner';
-    banner.innerHTML = `<div class="reminders-title">📌 На сегодня</div>` +
-      items.map(i=>`<div class="reminder-item">${i}</div>`).join('');
-    app.parentNode.insertBefore(banner, app);
-  }
+  // Group by client
+  const grouped={};
+  pending.forEach(t=>{if(!grouped[t.clientId])grouped[t.clientId]={name:t.clientName,tasks:[]};grouped[t.clientId].tasks.push(t);});
+  const body=document.getElementById('floatPanelBody');
+  if(pending.length===0){body.innerHTML='<div class="float-empty">Нет активных задач 🎉</div>';return;}
+  body.innerHTML=Object.values(grouped).map(g=>`
+    <div class="float-task-group">
+      <div class="float-task-group-name">${esc(g.name)}</div>
+      ${g.tasks.map(t=>`
+        <div class="float-task-item">
+          <input type="checkbox" onchange="toggleTaskFloat('${t.clientId}','${t.id}')" style="cursor:pointer;flex-shrink:0">
+          <span class="float-task-type">${esc(t.type)}</span>
+          <span class="float-task-note">${esc(t.note||'')}</span>
+          <span class="float-task-date">${fmtDate(t.dueDate)}</span>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function toggleFloatPanel() {
+  floatOpen=!floatOpen;
+  document.getElementById('floatPanel').style.display=floatOpen?'flex':'none';
+}
+
+async function toggleTaskFloat(clientId, taskId) {
+  const c=clients.find(x=>x.id===clientId); if(!c) return;
+  const t=c.tasks.find(x=>x.id===taskId); if(!t) return;
+  t.done=!t.done;
+  await apiPut(clientId,{tasks:JSON.stringify(c.tasks)});
+  render();
 }
 
 function renderClientList() {
-  const filtered = clients
-    .filter(c => c.tab===activeTab)
-    .filter(c => !searchQ || c.name?.toLowerCase().includes(searchQ.toLowerCase()) || (c.phone||'').includes(searchQ))
-    .sort((a,b) => (daysSince((b.contacts||[]).at(-1)?.date)??9999) - (daysSince((a.contacts||[]).at(-1)?.date)??9999));
+  const incomingObjects=[...new Set(clients.filter(c=>c.tab==='Входящие'&&c.incomingObject).map(c=>c.incomingObject))].sort();
+  const filtered=clients
+    .filter(c=>c.tab===activeTab)
+    .filter(c=>!searchQ||c.name?.toLowerCase().includes(searchQ.toLowerCase())||(c.phone||'').includes(searchQ))
+    .filter(c=>activeTab!=='Входящие'||!objectFilter||c.incomingObject===objectFilter)
+    .sort((a,b)=>activeTab==='Входящие'?new Date(b.createdAt)-new Date(a.createdAt):(daysSince((b.contacts||[]).at(-1)?.date)??9999)-(daysSince((a.contacts||[]).at(-1)?.date)??9999));
 
-  const hintMap = { 'Отложенные':'Пассивная база · контакт раз в месяц', 'Активные':'Рабочая база · контакт раз в неделю', 'Сделки':'Горячие клиенты · активные процессы' };
+  const hints={'Входящие':'Входящие из КЦ · обработать в течение 2 дней','Отложенные':'Пассивная база · контакт раз в месяц','Активные':'Рабочая база · контакт раз в неделю','Сделки':'Горячие клиенты · активные процессы'};
+  const objFilterHtml=activeTab==='Входящие'?`<select class="object-select" onchange="setObjectFilter(this.value)"><option value="">Все объекты (${clients.filter(c=>c.tab==='Входящие').length})</option>${incomingObjects.map(o=>`<option value="${esc(o)}"${objectFilter===o?' selected':''}>${esc(o.length>40?o.slice(0,40)+'…':o)} (${clients.filter(c=>c.tab==='Входящие'&&c.incomingObject===o).length})</option>`).join('')}</select>`:'';
+  const filterBadge=activeTab==='Входящие'&&objectFilter?`<div class="filter-badge">🏠 Объект: <strong>${esc(objectFilter)}</strong><button class="filter-clear" onclick="setObjectFilter('')">✕ Сбросить</button></div>`:'';
 
-  el('app').innerHTML = `
+  document.getElementById('app').innerHTML=`
     <div class="toolbar">
-      <input class="search-input" placeholder="Поиск по имени или телефону…" value="${esc(searchQ)}" oninput="setSearch(this.value)">
-      <button class="btn-kts" onclick="showKtsModal()">📋 Карточка КЦ</button>
+      <input class="search-input" placeholder="Поиск…" value="${esc(searchQ)}" oninput="setSearch(this.value)">
+      ${objFilterHtml}
+      <button class="btn-kts" onclick="showKtsModal()">📋 КЦ</button>
       <button class="btn-add" onclick="showClientModal(null)">+ Клиент</button>
     </div>
-    <div class="hint">${hintMap[activeTab]||''}</div>
+    <div class="hint">${hints[activeTab]||''}</div>
+    ${filterBadge}
     <div class="grid">
-      ${filtered.length===0 ? `<div class="empty-state">Нет клиентов${searchQ?' по запросу':' в этой вкладке'}</div>` : filtered.map(renderCard).join('')}
-    </div>
-  `;
+      ${filtered.length===0?'<div class="empty-state">Нет клиентов</div>':filtered.map(renderCard).join('')}
+    </div>`;
 }
 
 function renderCard(c) {
-  const col = tabColor(c.tab);
-  const dot = urgencyDot(c);
-  const d = daysSince((c.contacts||[]).at(-1)?.date);
-  const pendingTasks = (c.tasks||[]).filter(t=>!t.done);
-  const doneTasks = (c.tasks||[]).filter(t=>t.done);
-  const isOpen = openCardId===c.id;
+  const col=tabColor(c.tab); const dot=urgencyDot(c);
+  const d=daysSince((c.contacts||[]).at(-1)?.date);
+  const pending=(c.tasks||[]).filter(t=>!t.done);
+  const done=(c.tasks||[]).filter(t=>t.done);
+  const isOpen=openCardId===c.id;
+  const incomingBanner=c.tab==='Входящие'&&c.incomingObject?`<div class="incoming-banner">🏠 <strong>Объект:</strong> ${esc(c.incomingObject)}</div>`:'';
+  const daysHtml=d!==null?`<span class="days-badge" style="color:${dot}">${d}д назад</span>`:`<span class="days-badge" style="color:#e74c3c">нет контакта</span>`;
 
-  const daysHtml = d!==null
-    ? `<span class="days-badge" style="color:${dot}">${d}д назад</span>`
-    : `<span class="days-badge" style="color:#e74c3c">нет контакта</span>`;
-  const meetingMeta = c.meeting ? `<span class="meta-text" style="color:#4a6fa5">🤝 ${fmtDT(c.meeting)}</span>` : '';
+  let bodyHtml='';
+  if(isOpen){
+    const moveButtons=CLIENT_TABS.filter(t=>t!==c.tab).map(t=>`<button class="btn-move" style="border-color:${tabColor(t)};color:${tabColor(t)}" onclick="moveClient('${c.id}','${t}')">${t}</button>`).join('');
+    const pendingHtml=pending.map(t=>renderTaskRow(c.id,t)).join('')||'<div class="empty-section">Нет задач</div>';
+    const doneHtml=done.length>0?`<details class="done-details"><summary>Выполнено (${done.length})</summary>${done.map(t=>renderTaskRow(c.id,t)).join('')}</details>`:'';
+    const contactsHtml=[...(c.contacts||[])].reverse().map(ct=>`<div class="contact-row"><span class="contact-date">${fmtDate(ct.date)}</span><span class="contact-note">${esc(ct.note||'—')}</span><button class="btn-tiny" onclick="deleteContact('${c.id}','${ct.id}')">✕</button></div>`).join('')||'<div class="empty-section">Нет контактов</div>';
 
-  let bodyHtml = '';
-  if (isOpen) {
-    const moveButtons = CLIENT_TABS.filter(t=>t!==c.tab).map(t=>
-      `<button class="btn-move" style="border-color:${col};color:${col}" onclick="moveClient('${c.id}','${t}')">${t}</button>`
-    ).join('');
-
-    const pendingHtml = pendingTasks.map(t => renderTaskRow(c.id, t)).join('') || `<div class="empty-section">Нет задач</div>`;
-    const doneHtml = doneTasks.length > 0
-      ? `<details class="done-details"><summary>Выполнено (${doneTasks.length})</summary>${doneTasks.map(t=>renderTaskRow(c.id,t)).join('')}</details>`
-      : '';
-
-    const contactsHtml = [...(c.contacts||[])].reverse().map(ct =>
-      `<div class="contact-row">
-        <span class="contact-date">${fmtDate(ct.date)}</span>
-        <span class="contact-note">${esc(ct.note||'—')}</span>
-        <button class="btn-tiny-del" onclick="deleteContact('${c.id}','${ct.id}')">✕</button>
-      </div>`
-    ).join('') || `<div class="empty-section">Нет контактов</div>`;
-
-    bodyHtml = `<div class="card-body">
+    bodyHtml=`<div class="card-body">
       <div class="info-grid">
-        ${c.object?`<div class="info-item full"><span class="info-label">Объект</span><span class="info-val">${esc(c.object)}</span></div>`:''}
-        ${c.budget?`<div class="info-item"><span class="info-label">Бюджет</span><span class="info-val">${esc(c.budget)}</span></div>`:''}
-        ${c.meeting?`<div class="info-item"><span class="info-label">Встреча</span><span class="info-val" style="color:#4a6fa5">🤝 ${fmtDT(c.meeting)}</span></div>`:''}
-        ${c.confirm_call?`<div class="info-item"><span class="info-label">Созвон подтв.</span><span class="info-val" style="color:#b87333">📞 ${fmtDT(c.confirm_call)}</span></div>`:''}
-        ${c.notes?`<div class="info-item full"><span class="info-label">Заметки</span><span class="info-val">${esc(c.notes)}</span></div>`:''}
+        ${c.object?`<div class="info-item" style="grid-column:1/-1"><span class="info-label">Объект</span><span style="font-size:13px">${esc(c.object)}</span></div>`:''}
+        ${c.budget?`<div class="info-item"><span class="info-label">Бюджет</span><span style="font-size:13px">${esc(c.budget)}</span></div>`:''}
+        ${c.meeting?`<div class="info-item"><span class="info-label">Встреча</span><span style="font-size:13px;color:#4a6fa5">🤝 ${fmtDT(c.meeting)}</span></div>`:''}
+        ${c.confirmCall?`<div class="info-item"><span class="info-label">Созвон</span><span style="font-size:13px;color:#b87333">📞 ${fmtDT(c.confirmCall)}</span></div>`:''}
+        ${c.notes?`<div class="info-item" style="grid-column:1/-1"><span class="info-label">Заметки</span><span style="font-size:13px;color:#555">${esc(c.notes)}</span></div>`:''}
       </div>
       <div class="move-row">
-        <span class="info-label">→</span>
+        <span style="font-size:11px;color:#aaa">→</span>
+        ${c.tab==='Входящие'?`<button class="btn-promote" onclick="moveClient('${c.id}','Активные')">✓ В Активные</button>`:''}
         ${moveButtons}
         <button class="btn-meeting" onclick="showMeetingModal('${c.id}')">🗓 Встреча</button>
+        <button class="btn-complete" onclick="showCompleteModal('${c.id}')">🏆 Завершить</button>
         <button class="btn-edit" onclick="showClientModal('${c.id}')">✎</button>
         <button class="btn-del" onclick="deleteClient('${c.id}')">✕</button>
       </div>
       <div class="section">
-        <div class="section-header">
-          <span class="section-title">Задачи</span>
-          <button class="btn-section" onclick="showTaskModal('${c.id}')">+ Задача</button>
-        </div>
+        <div class="section-header"><span class="section-title">Задачи</span><button class="btn-section" onclick="showTaskModal('${c.id}')">+ Задача</button></div>
         ${pendingHtml}${doneHtml}
       </div>
       <div class="section">
-        <div class="section-header">
-          <span class="section-title">История контактов</span>
-          <button class="btn-section" onclick="showContactModal('${c.id}')">+ Контакт</button>
-        </div>
+        <div class="section-header"><span class="section-title">История контактов</span><button class="btn-section" onclick="showContactModal('${c.id}')">+ Контакт</button></div>
         ${contactsHtml}
       </div>
     </div>`;
   }
 
-  return `<div class="card" style="border-left-color:${col}" id="card-${c.id}">
+  return `<div class="card" style="border-left-color:${col}">
+    ${incomingBanner}
     <div class="card-header" onclick="toggleCard('${c.id}')">
       <div class="card-header-left">
         <span class="dot" style="background:${dot}"></span>
@@ -435,13 +436,13 @@ function renderCard(c) {
             <span class="meta-badge" style="background:${col}22;color:${col}">${esc(c.type)}</span>
             <span class="meta-text">${esc(c.source)}</span>
             ${c.phone?`<span class="meta-text">📞 ${esc(c.phone)}</span>`:''}
-            ${meetingMeta}
+            ${c.meeting?`<span class="meta-text" style="color:#4a6fa5">🤝 ${fmtDT(c.meeting)}</span>`:''}
           </div>
         </div>
       </div>
       <div class="card-header-right">
         ${daysHtml}
-        ${pendingTasks.length>0?`<span class="tasks-badge">${pendingTasks.length} задач</span>`:''}
+        ${pending.length>0?`<span class="tasks-badge">${pending.length} задач</span>`:''}
         <span class="chevron">${isOpen?'▲':'▼'}</span>
       </div>
     </div>
@@ -450,310 +451,363 @@ function renderCard(c) {
 }
 
 function renderTaskRow(clientId, t) {
-  const overdue = !t.done && t.dueDate && t.dueDate < todayISO();
+  const ov=!t.done&&t.dueDate&&t.dueDate<todayISO();
   return `<div class="task-row" style="opacity:${t.done?.5:1}">
     <input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${clientId}','${t.id}')">
-    <span class="task-type" style="color:${overdue?'#e74c3c':'#b87333'}">${esc(t.type)}</span>
+    <span class="task-type" style="color:${ov?'#e74c3c':'#b87333'}">${esc(t.type)}</span>
     <span class="task-note" style="text-decoration:${t.done?'line-through':'none'}">${esc(t.note)}</span>
-    <span class="task-date" style="color:${overdue?'#e74c3c':'#999'}">${fmtDate(t.dueDate)}</span>
-    <button class="btn-tiny-del" onclick="deleteTask('${clientId}','${t.id}')">✕</button>
+    <span class="task-date" style="color:${ov?'#e74c3c':'#999'}">${fmtDate(t.dueDate)}</span>
+    <button class="btn-tiny" onclick="showEditTaskModal('${clientId}','${t.id}')">✎</button>
+    <button class="btn-tiny" onclick="deleteTask('${clientId}','${t.id}')">✕</button>
   </div>`;
 }
 
+// ── COMPLETED TAB ────────────────────────────────────────────────
+function renderCompleted() {
+  const completed=clients.filter(c=>c.tab==='Завершённые');
+  document.getElementById('app').innerHTML=`
+    <div class="completed-wrap">
+      <div class="toolbar" style="padding:0 0 16px">
+        <button class="btn-add" onclick="showCompletedAddModal()">+ Завершённая сделка</button>
+      </div>
+      ${completed.length===0?'<div class="empty-state">Нет завершённых сделок</div>':`
+      <table class="completed-table">
+        <thead><tr>
+          <th>ФИО клиента</th>
+          <th>Телефон</th>
+          <th>Дата рождения</th>
+          <th>Дата сделки</th>
+          <th>Страховка до</th>
+          <th>Объект</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+          ${completed.map(c=>{
+            const today=new Date();
+            const dealD=c.dealDate?new Date(c.dealDate):null;
+            const isAnniversary=dealD&&dealD.getMonth()===today.getMonth()&&dealD.getDate()===today.getDate()&&dealD.getFullYear()<today.getFullYear();
+            return `<tr>
+              <td><strong>${esc(c.name)}</strong>${isAnniversary?'<span class="anniversary-badge">🎂 Годовщина!</span>':''}</td>
+              <td>${esc(c.phone||'—')}</td>
+              <td>${fmtDate(c.birthDate)}</td>
+              <td>${fmtDate(c.dealDate)}</td>
+              <td>${fmtDate(c.insuranceDate)}</td>
+              <td style="font-size:12px;color:#888">${esc(c.object||'—')}</td>
+              <td><div class="actions">
+                <button class="btn-edit" onclick="showClientModal('${c.id}')">✎</button>
+                <button class="btn-del" onclick="deleteClient('${c.id}')">✕</button>
+              </div></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`}
+    </div>`;
+}
+
+// ── CALENDAR ─────────────────────────────────────────────────────
 function renderCalendar() {
-  const firstDay = new Date(calY, calM, 1);
-  let startDow = firstDay.getDay(); startDow = startDow===0?6:startDow-1;
-  const daysInMonth = new Date(calY, calM+1, 0).getDate();
-  const todayNum = new Date().getFullYear()===calY&&new Date().getMonth()===calM ? new Date().getDate() : -1;
-
-  const meetByDay = {}, confByDay = {};
-  clients.filter(c=>c.meeting).forEach(c => {
-    const d = new Date(c.meeting);
-    if (d.getFullYear()===calY&&d.getMonth()===calM) {
-      const k = d.getDate(); (meetByDay[k]=meetByDay[k]||[]).push(c);
-    }
+  let sdow=new Date(calY,calM,1).getDay(); sdow=sdow===0?6:sdow-1;
+  const dim=new Date(calY,calM+1,0).getDate();
+  const todayN=new Date().getFullYear()===calY&&new Date().getMonth()===calM?new Date().getDate():-1;
+  const mbd={},cbd={},abd={};
+  clients.filter(c=>c.meeting).forEach(c=>{const d=new Date(c.meeting);if(d.getFullYear()===calY&&d.getMonth()===calM){const k=d.getDate();(mbd[k]=mbd[k]||[]).push(c);}});
+  clients.filter(c=>c.confirmCall).forEach(c=>{const d=new Date(c.confirmCall);if(d.getFullYear()===calY&&d.getMonth()===calM){const k=d.getDate();(cbd[k]=cbd[k]||[]).push(c);}});
+  // Anniversary - same month/day as dealDate
+  clients.filter(c=>c.tab==='Завершённые'&&c.dealDate).forEach(c=>{
+    const d=new Date(c.dealDate);
+    if(d.getMonth()===calM&&d.getFullYear()<=calY){const k=d.getDate();(abd[k]=abd[k]||[]).push({...c,yearsAgo:calY-d.getFullYear()});}
   });
-  clients.filter(c=>c.confirm_call).forEach(c => {
-    const d = new Date(c.confirm_call);
-    if (d.getFullYear()===calY&&d.getMonth()===calM) {
-      const k = d.getDate(); (confByDay[k]=confByDay[k]||[]).push(c);
-    }
+  // Insurance dates
+  clients.filter(c=>c.tab==='Завершённые'&&c.insuranceDate).forEach(c=>{
+    const d=new Date(c.insuranceDate);
+    if(d.getFullYear()===calY&&d.getMonth()===calM){const k=d.getDate();(abd[k]=abd[k]||[]).push({...c,isInsurance:true});}
+  });
+  // Birthdays
+  clients.filter(c=>c.birthDate).forEach(c=>{
+    const d=new Date(c.birthDate);
+    if(d.getMonth()===calM){const k=d.getDate();(abd[k]=abd[k]||[]).push({...c,isBirthday:true});}
   });
 
-  let cells = Array(startDow).fill('<div class="cal-cell empty"></div>');
-  for (let d=1;d<=daysInMonth;d++) {
-    const isToday = d===todayNum;
-    const mts = (meetByDay[d]||[]).map(c => `<div class="chip-meeting" onclick="goToClient('${c.id}')">🤝 ${esc(c.name.split(' ')[0])} ${new Date(c.meeting).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div>`).join('');
-    const cfs = (confByDay[d]||[]).map(c => `<div class="chip-confirm" onclick="goToClient('${c.id}')">📞 ${esc(c.name.split(' ')[0])} ${new Date(c.confirm_call).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div>`).join('');
-    cells.push(`<div class="cal-cell${isToday?' today':''}"><div class="cal-day-num${isToday?' today':''}">${d}</div>${mts}${cfs}</div>`);
+  const cells=[...Array(sdow)].map((_,i)=>`<div class="cal-cell empty" key="e${i}"></div>`);
+  for(let d=1;d<=dim;d++){
+    const isT=d===todayN;
+    cells.push(`<div class="cal-cell${isT?' today':''}">
+      <div class="cal-day-num${isT?' today':''}">${d}</div>
+      ${(mbd[d]||[]).map(c=>`<div class="chip-meeting" onclick="goToClient('${c.id}')">🤝 ${c.name.split(' ')[0]} ${new Date(c.meeting).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div>`).join('')}
+      ${(cbd[d]||[]).map(c=>`<div class="chip-confirm" onclick="goToClient('${c.id}')">📞 ${c.name.split(' ')[0]}</div>`).join('')}
+      ${(abd[d]||[]).map(c=>c.isBirthday?`<div class="chip-anniversary">🎂 ${c.name.split(' ')[0]}</div>`:c.isInsurance?`<div class="chip-anniversary">🛡 ${c.name.split(' ')[0]}</div>`:`<div class="chip-anniversary">🏆 ${c.yearsAgo}г — ${c.name.split(' ')[0]}</div>`).join('')}
+    </div>`);
   }
 
-  const upcoming = clients.filter(c=>c.meeting).map(c=>({...c,dt:new Date(c.meeting)})).sort((a,b)=>a.dt-b.dt);
-  const upcomingHtml = upcoming.length===0
-    ? '<div class="empty-state">Встреч не запланировано</div>'
-    : upcoming.map(c => `<div class="upcoming-row" onclick="goToClient('${c.id}')">
-        <span class="dot" style="background:${tabColor(c.tab)};margin-top:3px"></span>
-        <div class="upcoming-info">
-          <div class="upcoming-name">${esc(c.name)}</div>
-          <div class="upcoming-obj">${esc(c.object||'')}</div>
-        </div>
-        <div class="upcoming-times">
-          <div class="upcoming-meeting">🤝 ${fmtDT(c.meeting)}</div>
-          ${c.confirm_call?`<div class="upcoming-confirm">📞 ${fmtDT(c.confirm_call)}</div>`:''}
-        </div>
-      </div>`).join('');
-
-  el('app').innerHTML = `
-    <div class="cal-wrap">
-      <div class="cal-nav">
-        <button class="btn-cal-nav" onclick="calNav(-1)">←</button>
-        <span class="cal-month">${MONTHS[calM]} ${calY}</span>
-        <button class="btn-cal-nav" onclick="calNav(1)">→</button>
-      </div>
-      <div class="cal-grid">
-        ${DAYS.map(d=>`<div class="cal-day-header">${d}</div>`).join('')}
-        ${cells.join('')}
-      </div>
-      <div class="upcoming-title">Все запланированные встречи</div>
-      ${upcomingHtml}
+  const upcoming=clients.filter(c=>c.meeting).map(c=>({...c,dt:new Date(c.meeting)})).sort((a,b)=>a.dt-b.dt);
+  document.getElementById('app').innerHTML=`<div class="cal-wrap">
+    <div class="cal-nav">
+      <button class="btn-cal-nav" onclick="calNav(-1)">←</button>
+      <span class="cal-month">${MONTHS[calM]} ${calY}</span>
+      <button class="btn-cal-nav" onclick="calNav(1)">→</button>
     </div>
-  `;
+    <div class="cal-grid">${DAYS.map(d=>`<div class="cal-day-header">${d}</div>`).join('')}${cells.join('')}</div>
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;font-family:sans-serif;margin:28px 0 10px">Предстоящие встречи</div>
+    ${upcoming.length===0?'<div class="empty-state">Встреч не запланировано</div>':upcoming.map(c=>`<div class="upcoming-row" onclick="goToClient('${c.id}')"><span class="dot" style="background:${tabColor(c.tab)};margin-top:3px"></span><div style="flex:1"><div style="font-weight:600;font-size:14px">${esc(c.name)}</div><div style="font-size:12px;color:#888;font-family:sans-serif">${esc(c.object||'')}</div></div><div style="text-align:right;font-family:sans-serif"><div style="font-size:13px;color:#4a6fa5">🤝 ${fmtDT(c.meeting)}</div>${c.confirmCall?`<div style="font-size:12px;color:#b87333;margin-top:2px">📞 ${fmtDT(c.confirmCall)}</div>`:''}</div></div>`).join('')}
+  </div>`;
 }
 
 // ── ACTIONS ──────────────────────────────────────────────────────
-function setTab(t) { activeTab=t; openCardId=null; render(); }
-function setSearch(v) { searchQ=v; render(); }
-function toggleCard(id) { openCardId = openCardId===id ? null : id; renderClientList(); }
-function calNav(dir) { calM+=dir; if(calM>11){calM=0;calY++;} if(calM<0){calM=11;calY--;} render(); }
-function goToClient(id) {
-  const c = clients.find(x=>x.id===id);
-  if(c){ activeTab=c.tab; openCardId=id; render(); }
-}
+function setTab(t){activeTab=t;searchQ='';objectFilter='';openCardId=null;render();}
+function setSearch(v){searchQ=v;render();}
+function setObjectFilter(v){objectFilter=v;render();}
+function toggleCard(id){openCardId=openCardId===id?null:id;renderClientList();}
+function calNav(dir){calM+=dir;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}render();}
+function goToClient(id){const c=clients.find(x=>x.id===id);if(c){setTab(c.tab);openCardId=id;render();}}
 
-async function moveClient(id, tab) {
-  const c = clients.find(x=>x.id===id); if(!c) return;
-  c.tab = tab;
-  await apiPut(id, { tab });
-  render();
-}
-async function deleteClient(id) {
-  if(!confirm('Удалить клиента?')) return;
-  await apiDelete(id);
-  clients = clients.filter(c=>c.id!==id);
-  openCardId=null; render();
-}
-async function toggleTask(clientId, taskId) {
-  const c = clients.find(x=>x.id===clientId); if(!c) return;
-  const t = c.tasks.find(x=>x.id===taskId); if(!t) return;
-  t.done = !t.done;
-  await apiPut(clientId, { tasks: JSON.stringify(c.tasks) });
-  renderClientList();
-}
-async function deleteTask(clientId, taskId) {
-  const c = clients.find(x=>x.id===clientId); if(!c) return;
-  c.tasks = c.tasks.filter(t=>t.id!==taskId);
-  await apiPut(clientId, { tasks: JSON.stringify(c.tasks) });
-  renderClientList();
-}
-async function deleteContact(clientId, contactId) {
-  const c = clients.find(x=>x.id===clientId); if(!c) return;
-  c.contacts = c.contacts.filter(t=>t.id!==contactId);
-  await apiPut(clientId, { contacts: JSON.stringify(c.contacts) });
-  renderClientList();
-}
+async function moveClient(id,tab){const c=clients.find(x=>x.id===id);if(!c)return;c.tab=tab;await apiPut(id,{tab});render();}
+async function deleteClient(id){if(!confirm('Удалить?'))return;await apiDel(id);clients=clients.filter(c=>c.id!==id);openCardId=null;render();}
+async function toggleTask(cid,tid){const c=clients.find(x=>x.id===cid);if(!c)return;const t=c.tasks.find(x=>x.id===tid);if(!t)return;t.done=!t.done;await apiPut(cid,{tasks:JSON.stringify(c.tasks)});render();}
+async function deleteTask(cid,tid){const c=clients.find(x=>x.id===cid);if(!c)return;c.tasks=c.tasks.filter(t=>t.id!==tid);await apiPut(cid,{tasks:JSON.stringify(c.tasks)});render();}
+async function deleteContact(cid,ctid){const c=clients.find(x=>x.id===cid);if(!c)return;c.contacts=c.contacts.filter(x=>x.id!==ctid);await apiPut(cid,{contacts:JSON.stringify(c.contacts)});render();}
 
-// ── MODALS ───────────────────────────────────────────────────────
-function openModal(html) { el('modals').innerHTML = `<div class="overlay" onclick="closeModal(event)">${html}</div>`; }
-function closeModal(e) { if(e.target.classList.contains('overlay')) el('modals').innerHTML=''; }
-function closeModalForce() { el('modals').innerHTML=''; }
+// ── MODALS ────────────────────────────────────────────────────────
+function openModal(html){document.getElementById('modals').innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()">${html}</div>`;}
+function closeModal(){document.getElementById('modals').innerHTML='';render();}
 
 function showClientModal(id) {
-  const c = id ? clients.find(x=>x.id===id) : null;
-  const def = { id:uid(), name:'', phone:'', type:'Покупатель', source:'Звонок по объекту', object:'', budget:'', notes:'', tab: activeTab==='Календарь'?'Активные':activeTab };
-  const d = c || def;
+  const c=id?clients.find(x=>x.id===id):null;
+  const d=c||{id:uid(),name:'',phone:'',type:'Покупатель',source:'Звонок по объекту',object:'',incomingObject:'',budget:'',notes:'',tab:activeTab==='Календарь'||activeTab==='Завершённые'?'Активные':activeTab,birthDate:'',dealDate:'',insuranceDate:''};
+  const isCompleted=d.tab==='Завершённые';
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce()">✕</button>
-    <div class="form-title">${c?'Редактировать клиента':'Новый клиент'}</div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-title">${c?'Редактировать':'Новый клиент'}</div>
     <div class="form-grid">
       <div class="field"><label>Имя *</label><input id="f_name" value="${esc(d.name)}"></div>
-      <div class="field"><label>Телефон</label><input id="f_phone" value="${esc(d.phone)}"></div>
-      <div class="field"><label>Тип клиента</label><select id="f_type">${CLIENT_TYPES.map(t=>`<option${d.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Телефон</label><input id="f_phone" value="${esc(d.phone||'')}"></div>
+      <div class="field"><label>Тип</label><select id="f_type">${CLIENT_TYPES.map(t=>`<option${d.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
       <div class="field"><label>Источник</label><select id="f_source">${SOURCES.map(t=>`<option${d.source===t?' selected':''}>${t}</option>`).join('')}</select></div>
-      <div class="field full"><label>Объект / Запрос</label><input id="f_object" value="${esc(d.object)}"></div>
-      <div class="field"><label>Бюджет</label><input id="f_budget" value="${esc(d.budget)}"></div>
-      <div class="field"><label>Вкладка</label><select id="f_tab">${CLIENT_TABS.map(t=>`<option${d.tab===t?' selected':''}>${t}</option>`).join('')}</select></div>
-      <div class="field full"><label>Заметки</label><textarea id="f_notes" rows="3">${esc(d.notes)}</textarea></div>
+      <div class="field full"><label>Объект</label><input id="f_object" value="${esc(d.object||'')}"></div>
+      <div class="field"><label>Бюджет</label><input id="f_budget" value="${esc(d.budget||'')}"></div>
+      <div class="field"><label>Вкладка</label><select id="f_tab">${['Входящие',...CLIENT_TABS.slice(1),'Завершённые'].map(t=>`<option${d.tab===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Дата рождения</label><input type="date" id="f_birth" value="${d.birthDate||''}"></div>
+      ${isCompleted?`
+      <div class="field"><label>Дата сделки</label><input type="date" id="f_deal" value="${d.dealDate||''}"></div>
+      <div class="field"><label>Страховка до</label><input type="date" id="f_insurance" value="${d.insuranceDate||''}"></div>
+      `:''}
+      <div class="field full"><label>Заметки</label><textarea id="f_notes" rows="3">${esc(d.notes||'')}</textarea></div>
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModalForce()">Отмена</button>
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
       <button class="btn-save" onclick="saveClient('${d.id}',${!c})">${c?'Сохранить':'Далее →'}</button>
     </div>
   </div>`);
 }
 
 async function saveClient(id, isNew) {
-  const name = el('f_name').value.trim();
-  if(!name) { alert('Введите имя'); return; }
-  const data = {
-    id, name, phone: el('f_phone').value.trim(),
-    type: el('f_type').value, source: el('f_source').value,
-    object: el('f_object').value.trim(), budget: el('f_budget').value.trim(),
-    notes: el('f_notes').value.trim(), tab: el('f_tab').value,
-    created_at: todayISO(),
-  };
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){alert('Введите имя');return;}
+  const tab=document.getElementById('f_tab').value;
+  const data={id,name,phone:document.getElementById('f_phone').value.trim(),type:document.getElementById('f_type').value,source:document.getElementById('f_source').value,object:document.getElementById('f_object').value.trim(),budget:document.getElementById('f_budget').value.trim(),notes:document.getElementById('f_notes').value.trim(),tab,birthDate:document.getElementById('f_birth')?.value||'',dealDate:document.getElementById('f_deal')?.value||'',insuranceDate:document.getElementById('f_insurance')?.value||'',created_at:todayISO()};
   try {
-    if (isNew) {
-      data.contacts = JSON.stringify([]); data.tasks = JSON.stringify([]);
-      const saved = await apiPost(data);
-      clients.push({ ...saved, contacts:[], tasks:[] });
-    } else {
-      await apiPut(id, data);
-      const idx = clients.findIndex(c=>c.id===id);
-      if(idx>=0) clients[idx] = { ...clients[idx], ...data };
-    }
-    closeModalForce();
-    if(isNew) showMeetingModal(id);
-    else render();
-  } catch(e) { alert('Ошибка: '+e.message); }
+    if(isNew){data.contacts=JSON.stringify([]);data.tasks=JSON.stringify([]);const saved=await apiPost(data);clients.push({...saved,contacts:[],tasks:[]});}
+    else{await apiPut(id,data);const idx=clients.findIndex(c=>c.id===id);if(idx>=0)clients[idx]={...clients[idx],...data};}
+    closeModal();
+    if(isNew&&tab!=='Завершённые')showMeetingModal(id);
+  } catch(e){alert('Ошибка: '+e.message);}
+}
+
+function showCompleteModal(id) {
+  const c=clients.find(x=>x.id===id);
+  openModal(`<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-title">🏆 Завершить сделку</div>
+    <p style="font-size:13px;color:#888;font-family:sans-serif;margin-bottom:16px">Клиент: <strong>${esc(c?.name)}</strong> перейдёт во вкладку Завершённые</p>
+    <div class="form-grid">
+      <div class="field"><label>Дата сделки *</label><input type="date" id="fc_deal" value="${todayISO()}"></div>
+      <div class="field"><label>Дата рождения</label><input type="date" id="fc_birth" value="${c?.birthDate||''}"></div>
+      <div class="field full"><label>Страховка до</label><input type="date" id="fc_insurance" value="${c?.insuranceDate||''}"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+      <button class="btn-save" onclick="completeClient('${id}')">Завершить сделку</button>
+    </div>
+  </div>`);
+}
+
+async function completeClient(id) {
+  const deal=document.getElementById('fc_deal').value;
+  if(!deal){alert('Укажите дату сделки');return;}
+  const updates={tab:'Завершённые',dealDate:deal,birthDate:document.getElementById('fc_birth').value||'',insuranceDate:document.getElementById('fc_insurance').value||''};
+  await apiPut(id,updates);
+  const c=clients.find(x=>x.id===id);
+  if(c)Object.assign(c,updates);
+  closeModal();
+}
+
+function showCompletedAddModal() {
+  const id=uid();
+  openModal(`<div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-title">🏆 Завершённая сделка</div>
+    <div class="form-grid">
+      <div class="field"><label>ФИО *</label><input id="f_name" placeholder="Имя клиента"></div>
+      <div class="field"><label>Телефон</label><input id="f_phone"></div>
+      <div class="field"><label>Дата рождения</label><input type="date" id="f_birth"></div>
+      <div class="field"><label>Дата сделки *</label><input type="date" id="f_deal" value="${todayISO()}"></div>
+      <div class="field full"><label>Страховка до</label><input type="date" id="f_insurance"></div>
+      <div class="field full"><label>Объект</label><input id="f_object" placeholder="Адрес объекта"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+      <button class="btn-save" onclick="saveCompletedDirect('${id}')">Сохранить</button>
+    </div>
+  </div>`);
+}
+
+async function saveCompletedDirect(id) {
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){alert('Введите имя');return;}
+  const data={id,name,phone:document.getElementById('f_phone').value.trim(),type:'Покупатель',source:'Другое',object:document.getElementById('f_object').value.trim(),budget:'',notes:'',tab:'Завершённые',birthDate:document.getElementById('f_birth').value||'',dealDate:document.getElementById('f_deal').value||'',insuranceDate:document.getElementById('f_insurance').value||'',created_at:todayISO(),contacts:JSON.stringify([]),tasks:JSON.stringify([])};
+  const saved=await apiPost(data);
+  clients.push({...saved,contacts:[],tasks:[]});
+  closeModal();
 }
 
 function showMeetingModal(id) {
-  const c = clients.find(x=>x.id===id);
-  const hasMeeting = c?.meeting ? 'yes' : '';
+  const c=clients.find(x=>x.id===id);
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce();render()">✕</button>
+    <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="form-title">📅 Встреча назначена?</div>
-    <p style="font-size:13px;color:#888;font-family:sans-serif;margin-bottom:16px">Клиент: <b>${esc(c?.name)}</b></p>
-    <div class="meeting-choices" style="margin-bottom:16px">
-      <button class="btn-choice${hasMeeting==='yes'?' active-blue':''}" id="mChoice_yes" onclick="toggleMeetingChoice('yes')">✓ Да, встреча есть</button>
-      <button class="btn-choice${hasMeeting!=='yes'?' active-green':''}" id="mChoice_no" onclick="toggleMeetingChoice('no')">Нет встречи</button>
+    <p style="font-size:13px;color:#888;font-family:sans-serif;margin-bottom:16px">Клиент: <strong>${esc(c?.name)}</strong></p>
+    <div class="meeting-choices" id="mChoices">
+      <button class="btn-choice${c?.meeting?' active-blue':''}" id="mYes" onclick="toggleMChoice('yes')">✓ Да, встреча есть</button>
+      <button class="btn-choice${!c?.meeting?' active-green':''}" id="mNo" onclick="toggleMChoice('no')">Нет встречи</button>
     </div>
-    <div id="meetingFields" style="display:${hasMeeting==='yes'?'flex':'none'};flex-direction:column;gap:12px">
+    <div id="mFields" style="display:${c?.meeting?'flex':'none'};flex-direction:column;gap:12px;margin-top:16px">
       <div class="field"><label>Дата и время встречи</label><input type="datetime-local" id="f_meeting" value="${c?.meeting?.slice(0,16)||''}"></div>
-      <div class="field"><label>Созвон для подтверждения</label><input type="datetime-local" id="f_confirm" value="${c?.confirm_call?.slice(0,16)||''}"></div>
+      <div class="field"><label>Созвон для подтверждения</label><input type="datetime-local" id="f_confirm" value="${c?.confirmCall?.slice(0,16)||''}"></div>
     </div>
     <div class="form-actions" style="margin-top:16px">
-      <button class="btn-cancel" onclick="closeModalForce();render()">Позже</button>
-      <button class="btn-save" id="mSaveBtn" onclick="saveMeeting('${id}')">Сохранить</button>
+      <button class="btn-cancel" onclick="closeModal()">Позже</button>
+      <button class="btn-save" onclick="saveMeeting('${id}')">Сохранить</button>
     </div>
   </div>`);
 }
 
-function toggleMeetingChoice(choice) {
-  el('mChoice_yes').className = 'btn-choice' + (choice==='yes'?' active-blue':'');
-  el('mChoice_no').className = 'btn-choice' + (choice==='no'?' active-green':'');
-  el('meetingFields').style.display = choice==='yes' ? 'flex' : 'none';
+function toggleMChoice(ch) {
+  document.getElementById('mYes').className='btn-choice'+(ch==='yes'?' active-blue':'');
+  document.getElementById('mNo').className='btn-choice'+(ch==='no'?' active-green':'');
+  document.getElementById('mFields').style.display=ch==='yes'?'flex':'none';
 }
 
 async function saveMeeting(id) {
-  const hasMeeting = el('mChoice_yes').classList.contains('active-blue');
-  const meeting = hasMeeting ? (el('f_meeting')?.value||null) : null;
-  const confirm_call = hasMeeting ? (el('f_confirm')?.value||null) : null;
-  await apiPut(id, { meeting: meeting||null, confirm_call: confirm_call||null });
-  const c = clients.find(x=>x.id===id);
-  if(c){ c.meeting=meeting; c.confirm_call=confirm_call; }
-  closeModalForce(); render();
+  const hasMeeting=document.getElementById('mYes').classList.contains('active-blue');
+  const meeting=hasMeeting?(document.getElementById('f_meeting')?.value||null):null;
+  const confirmCall=hasMeeting?(document.getElementById('f_confirm')?.value||null):null;
+  await apiPut(id,{meeting:meeting||null,confirm_call:confirmCall||null});
+  const c=clients.find(x=>x.id===id);
+  if(c){c.meeting=meeting;c.confirmCall=confirmCall;}
+  closeModal();
 }
 
-function showTaskModal(clientId) {
-  const c = clients.find(x=>x.id===clientId);
-  const types = TASK_TYPES[c?.tab||'Активные']||['Другое'];
+function showTaskModal(clientId, editTaskId=null) {
+  const c=clients.find(x=>x.id===clientId);
+  const types=TASK_TYPES[c?.tab||'Активные']||['Другое'];
+  const existing=editTaskId?c?.tasks.find(t=>t.id===editTaskId):null;
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce()">✕</button>
-    <div class="form-title">Новая задача</div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-title">${existing?'Редактировать задачу':'Новая задача'}</div>
     <div class="form-grid">
-      <div class="field"><label>Тип задачи</label><select id="t_type">${types.map(t=>`<option>${t}</option>`).join('')}</select></div>
-      <div class="field"><label>Срок</label><input type="date" id="t_due" value="${todayISO()}"></div>
-      <div class="field full"><label>Комментарий</label><textarea id="t_note" rows="3"></textarea></div>
+      <div class="field"><label>Тип</label><select id="t_type">${types.map(t=>`<option${existing?.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Срок</label><input type="date" id="t_due" value="${existing?.dueDate||todayISO()}"></div>
+      <div class="field full"><label>Комментарий</label><textarea id="t_note" rows="3">${esc(existing?.note||'')}</textarea></div>
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModalForce()">Отмена</button>
-      <button class="btn-save" onclick="saveTask('${clientId}')">Добавить</button>
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+      <button class="btn-save" onclick="saveTask('${clientId}','${editTaskId||''}')">${existing?'Сохранить':'Добавить'}</button>
     </div>
   </div>`);
 }
 
-async function saveTask(clientId) {
-  const c = clients.find(x=>x.id===clientId); if(!c) return;
-  const task = { id:uid(), type:el('t_type').value, dueDate:el('t_due').value, note:el('t_note').value.trim(), done:false };
-  c.tasks.push(task);
-  await apiPut(clientId, { tasks: JSON.stringify(c.tasks) });
-  closeModalForce(); renderClientList();
+function showEditTaskModal(clientId, taskId) { showTaskModal(clientId, taskId); }
+
+async function saveTask(clientId, editTaskId) {
+  const c=clients.find(x=>x.id===clientId);if(!c)return;
+  if(editTaskId){
+    const t=c.tasks.find(x=>x.id===editTaskId);
+    if(t){t.type=document.getElementById('t_type').value;t.dueDate=document.getElementById('t_due').value;t.note=document.getElementById('t_note').value.trim();}
+  } else {
+    c.tasks.push({id:uid(),type:document.getElementById('t_type').value,dueDate:document.getElementById('t_due').value,note:document.getElementById('t_note').value.trim(),done:false});
+  }
+  await apiPut(clientId,{tasks:JSON.stringify(c.tasks)});
+  closeModal();
 }
 
 function showContactModal(clientId) {
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce()">✕</button>
+    <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="form-title">Фиксация контакта</div>
     <div class="form-grid">
       <div class="field"><label>Дата</label><input type="date" id="c_date" value="${todayISO()}"></div>
-      <div class="field full"><label>Что обсудили</label><textarea id="c_note" rows="4" placeholder="Краткое резюме разговора…"></textarea></div>
+      <div class="field full"><label>Что обсудили</label><textarea id="c_note" rows="4" placeholder="Краткое резюме…"></textarea></div>
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModalForce()">Отмена</button>
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
       <button class="btn-save" onclick="saveContact('${clientId}')">Сохранить</button>
     </div>
   </div>`);
 }
 
 async function saveContact(clientId) {
-  const c = clients.find(x=>x.id===clientId); if(!c) return;
-  const contact = { id:uid(), date:el('c_date').value, note:el('c_note').value.trim() };
-  c.contacts.push(contact);
-  await apiPut(clientId, { contacts: JSON.stringify(c.contacts) });
-  closeModalForce(); renderClientList();
+  const c=clients.find(x=>x.id===clientId);if(!c)return;
+  c.contacts.push({id:uid(),date:document.getElementById('c_date').value,note:document.getElementById('c_note').value.trim()});
+  await apiPut(clientId,{contacts:JSON.stringify(c.contacts)});
+  closeModal();
 }
 
 function showKtsModal() {
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce()">✕</button>
+    <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="form-title">📋 Карточка из КЦ</div>
-    <p style="font-size:13px;color:#888;font-family:sans-serif;margin-bottom:12px">Вставьте текст карточки целиком — имя, телефон и адрес распознаются автоматически</p>
-    <div class="field full" style="margin-bottom:12px">
-      <textarea id="kts_text" rows="10" style="font-family:monospace;font-size:12px" placeholder="Получена новая карточка из КЦ&#10;ФИО: Алла&#10;Телефон: +79055286891&#10;..."></textarea>
-    </div>
-    <div id="kts_error" style="color:#e74c3c;font-size:13px;font-family:sans-serif;display:none"></div>
+    <p style="font-size:13px;color:#888;font-family:sans-serif;margin-bottom:12px">Вставьте текст карточки — попадёт во вкладку Входящие</p>
+    <div class="field full" style="margin-bottom:12px"><textarea id="kts_text" rows="10" style="font-family:monospace;font-size:12px" placeholder="Получена новая карточка из КЦ&#10;ФИО: Алла&#10;Телефон: +7..."></textarea></div>
+    <div id="kts_err" style="color:#e74c3c;font-size:13px;font-family:sans-serif;display:none"></div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModalForce()">Отмена</button>
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
       <button class="btn-save" onclick="parseKtsModal()">Распознать →</button>
     </div>
   </div>`);
 }
 
 function parseKtsModal() {
-  const text = el('kts_text').value;
-  const p = parseKts(text);
-  if (!p.name && !p.phone) { el('kts_error').style.display=''; el('kts_error').textContent='Не удалось распознать. Проверьте формат.'; return; }
-  const newId = uid();
+  const text=document.getElementById('kts_text').value;
+  const p=parseKts(text);
+  if(!p.name&&!p.phone){document.getElementById('kts_err').style.display='';document.getElementById('kts_err').textContent='Не удалось распознать';return;}
+  const newId=uid();
   openModal(`<div class="modal">
-    <button class="modal-close" onclick="closeModalForce()">✕</button>
+    <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="form-title">📋 Карточка из КЦ</div>
-    <div style="background:#f0faf2;border:1px solid #b2dfb8;border-radius:8px;padding:10px 14px;font-size:13px;color:#2d7a3a;font-family:sans-serif;margin-bottom:16px">✓ Данные распознаны. Проверьте перед добавлением.</div>
+    <div style="background:#f0faf2;border:1px solid #b2dfb8;border-radius:8px;padding:10px 14px;font-size:13px;color:#2d7a3a;font-family:sans-serif;margin-bottom:16px">✓ Данные распознаны</div>
+    ${p.incomingObject?`<div style="background:#f0eeff;border:1px solid #c9b8f0;border-radius:8px;padding:10px 14px;font-size:13px;font-family:sans-serif;margin-bottom:12px"><strong>🏠 Объект:</strong> ${esc(p.incomingObject)}</div>`:''}
     <div class="parsed-grid">
-      ${p.name?`<div class="parsed-row"><span class="info-label">Имя</span><span style="font-size:13px;font-family:sans-serif">${esc(p.name)}</span></div>`:''}
-      ${p.phone?`<div class="parsed-row"><span class="info-label">Телефон</span><span style="font-size:13px;font-family:sans-serif">${esc(p.phone)}</span></div>`:''}
-      ${p.object?`<div class="parsed-row"><span class="info-label">Объект</span><span style="font-size:13px;font-family:sans-serif">${esc(p.object)}</span></div>`:''}
-      ${p.budget?`<div class="parsed-row"><span class="info-label">Бюджет</span><span style="font-size:13px;font-family:sans-serif">${esc(p.budget)}</span></div>`:''}
-      ${p.notes?`<div class="parsed-row"><span class="info-label">Из карточки</span><span style="font-size:13px;font-family:sans-serif">${esc(p.notes)}</span></div>`:''}
+      ${p.name?`<div><span style="font-size:11px;color:#aaa;text-transform:uppercase;font-family:sans-serif">Имя</span><div style="font-size:13px;font-family:sans-serif">${esc(p.name)}</div></div>`:''}
+      ${p.phone?`<div><span style="font-size:11px;color:#aaa;text-transform:uppercase;font-family:sans-serif">Телефон</span><div style="font-size:13px;font-family:sans-serif">${esc(p.phone)}</div></div>`:''}
+      ${p.object?`<div><span style="font-size:11px;color:#aaa;text-transform:uppercase;font-family:sans-serif">Адрес</span><div style="font-size:13px;font-family:sans-serif">${esc(p.object)}</div></div>`:''}
+      ${p.budget?`<div><span style="font-size:11px;color:#aaa;text-transform:uppercase;font-family:sans-serif">Бюджет</span><div style="font-size:13px;font-family:sans-serif">${esc(p.budget)}</div></div>`:''}
     </div>
     <div class="form-actions" style="margin-top:16px">
       <button class="btn-cancel" onclick="showKtsModal()">← Назад</button>
-      <button class="btn-save" onclick="saveKtsClient('${newId}','${esc(p.name)}','${esc(p.phone)}','${esc(p.object)}','${esc(p.budget)}','${esc(p.notes)}')">Добавить клиента →</button>
+      <button class="btn-save" onclick="saveKtsClient('${newId}','${esc(p.name)}','${esc(p.phone)}','${esc(p.object)}','${esc(p.budget)}','${esc(p.notes)}','${esc(p.incomingObject)}')">Добавить →</button>
     </div>
   </div>`);
 }
 
-async function saveKtsClient(id, name, phone, object, budget, notes) {
-  const data = { id, name, phone, object, budget, notes, type:'Покупатель', source:'КЦ', tab:'Активные', created_at:todayISO(), contacts:JSON.stringify([]), tasks:JSON.stringify([]) };
-  const saved = await apiPost(data);
-  clients.push({ ...saved, contacts:[], tasks:[] });
-  closeModalForce();
+async function saveKtsClient(id,name,phone,object,budget,notes,incomingObject) {
+  const data={id,name,phone,object,budget,notes,incomingObject,type:'Покупатель',source:'КЦ',tab:'Входящие',created_at:todayISO(),contacts:JSON.stringify([]),tasks:JSON.stringify([])};
+  const saved=await apiPost(data);
+  clients.push({...saved,contacts:[],tasks:[]});
+  closeModal();
   showMeetingModal(id);
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
 loadClients();
-// Обновляем данные каждые 30 секунд
 setInterval(loadClients, 30000);
 </script>
 </body>
